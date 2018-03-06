@@ -28,23 +28,23 @@ class Register extends Component {
   }
   handleSubmit(event) {
     let errormessage = 'SHIT!';
-    if (this.state.usernamestate === '' || this.state.passwordstate === '') {
 
-      if (this.state.usernamestate === ''){
-        this.setState({ usernameerrorstate: errormessage })
-      }
-      else {
-        this.setState({ usernameerrorstate: '' })
-      }
-      
-      if (this.state.passwordstate === ''){
-        this.setState({ passworderrorstate: errormessage })
-      }
-      else {
-        this.setState({ passworderrorstate: '' })
-      }
 
+    if (this.state.usernamestate === '') {
+      this.setState({ usernameerrorstate: errormessage })
     }
+    else {
+      this.setState({ usernameerrorstate: '' })
+    }
+
+    if (this.state.passwordstate === '') {
+      this.setState({ passworderrorstate: errormessage })
+    }
+    else {
+      this.setState({ passworderrorstate: '' })
+    }
+
+
   }
 
   render() {
@@ -64,7 +64,7 @@ class Register extends Component {
                 errorText={this.state.passworderrorstate}
                 onChange={this.handleChangepassword}
               />
-              <FlatButton label="Register" onClick={this.handleSubmit}/>
+              <FlatButton label="Register" onClick={this.handleSubmit} />
             </center>
           </CardText>
           <CardActions>

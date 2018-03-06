@@ -41,8 +41,6 @@ class Register extends Component {
   handleSubmit(event) {
     let errormessage = 'SHIT!';
 
-    if (this.state.firstnamestate === '' || this.state.secondnamestate === '' || this.state.usernamestate === '' || this.state.passwordstate === '') {
-
       if (this.state.firstnamestate === ''){
         this.setState({ firstnameerrorstate: errormessage })
       }
@@ -71,7 +69,7 @@ class Register extends Component {
         this.setState({ passworderrorstate: '' })
       }
 
-    }
+    
   }
 
   render() {
