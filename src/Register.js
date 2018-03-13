@@ -40,7 +40,7 @@ class Register extends Component {
     this.setState({ passwordstate: event.target.value })
   }
   handleSubmit(event) {
-    let errormessage = 'SHIT!';
+    let errormessage = 'Обязательно для заполнения!';
     let erors = false;
 
       if (this.state.firstnamestate === ''){
@@ -93,7 +93,7 @@ class Register extends Component {
 
   render() {
     return (
-      <div style={{width: 700}}>
+      <div style={{"padding": "15%"}}>
       <Card>
         <center>
           <CardText>

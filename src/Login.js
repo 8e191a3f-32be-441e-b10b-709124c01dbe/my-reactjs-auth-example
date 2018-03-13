@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardActions, CardText } from 'material-ui/Card';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
+
 class Register extends Component {
   constructor(props) {
     super(props);
@@ -31,7 +32,7 @@ class Register extends Component {
   handleSubmit(event) {
 
     
-    let errormessage = 'SHIT!';
+    let errormessage = 'Обязательно для заполнения!';
     let error = false;
 
     if (this.state.usernamestate === '') {
@@ -60,14 +61,23 @@ class Register extends Component {
       .then(response => {
         // Check for erors and shot alert!
         // In curl is one, in web is other!
-        alert(response.data.message)
+        if (response.data.erros === 0){
+          window.location.href = "/welcome"
+        }
+        // Get /welcome
+        // send get objects /key/asdasdasdadasdasda
+        // get username
+        else{
+          console.log(response.data.erros)
+        }
+         
       })
     }
   }
 
   render() {
     return (
-      <div style={{width: 700}}>
+      <div style={{"padding": "15%"}}>
       <Card>
         <center>
           <CardText>

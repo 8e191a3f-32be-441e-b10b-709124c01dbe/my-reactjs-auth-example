@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Register from './Register';
 import Login from './Login';
-
+import Welcome from './Welcome'
 // ToDo: 
 // 2. add message label
 // 2. Cookie sessions
@@ -18,6 +18,7 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={Login} />
             <Route path="/register" component={Register} />
+            <Route path="/welcome" component={Welcome} />
           </Switch>
         </MuiThemeProvider>
       </BrowserRouter>
