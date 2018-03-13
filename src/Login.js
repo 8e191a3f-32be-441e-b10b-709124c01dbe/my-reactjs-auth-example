@@ -3,16 +3,18 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import { Link } from 'react-router-dom';
-
+import axios from 'axios';
 class Register extends Component {
   constructor(props) {
     super(props);
+    super(this.state);
     this.state = {
       usernamestate: '',
       passwordstate: '',
 
       usernameerrorstate: '',
       passworderrorstate: '',
+      message: '',
     };
     this.hadleChangeUsername = this.hadleChangeUsername.bind(this);
     this.handleChangepassword = this.handleChangepassword.bind(this);
@@ -27,10 +29,13 @@ class Register extends Component {
     this.setState({ passwordstate: event.target.value })
   }
   handleSubmit(event) {
-    let errormessage = 'SHIT!';
 
+    
+    let errormessage = 'SHIT!';
+    let error = false;
 
     if (this.state.usernamestate === '') {
+      error = true;
       this.setState({ usernameerrorstate: errormessage })
     }
     else {
@@ -38,41 +43,54 @@ class Register extends Component {
     }
 
     if (this.state.passwordstate === '') {
+      error = true;
       this.setState({ passworderrorstate: errormessage })
     }
     else {
       this.setState({ passworderrorstate: '' })
     }
-
-
+    if (!error){
+      axios.post('http://localhost:5005/login', {
+      
+        username: this.state.usernamestate,
+        password: this.state.passwordstate
+    
+      
+      })
+      .then(response => {
+        // Check for erors and shot alert!
+        // In curl is one, in web is other!
+        alert(response.data.message)
+      })
+    }
   }
 
   render() {
     return (
+      <div style={{width: 700}}>
       <Card>
         <center>
           <CardText>
+            {this.state.message}
             <center>
               <TextField
                 hintText="Username"
                 onChange={this.hadleChangeUsername}
                 errorText={this.state.usernameerrorstate}
-              />
+              /><br/>
               <TextField
                 hintText="Password"
                 type="password"
                 errorText={this.state.passworderrorstate}
                 onChange={this.handleChangepassword}
-              />
-              <FlatButton label="Register" onClick={this.handleSubmit} />
+              /><br/>
+              <FlatButton label="Login" onClick={this.handleSubmit} primary={true} />
+              <Link to={"/register"}><FlatButton label="Register Page" /></Link>
             </center>
           </CardText>
-          <CardActions>
-            <Link to={"/"}><FlatButton label="Login Page" /></Link>
-            <Link to={"/register"}><FlatButton label="Register Page" /></Link>
-          </CardActions>
         </center>
       </Card>
+      </div>
     );
   }
 }

@@ -3,6 +3,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import { Card, CardActions, CardText } from 'material-ui/Card';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 class Register extends Component {
   constructor(props) {
@@ -40,8 +41,10 @@ class Register extends Component {
   }
   handleSubmit(event) {
     let errormessage = 'SHIT!';
+    let erors = false;
 
       if (this.state.firstnamestate === ''){
+        erors = true;
         this.setState({ firstnameerrorstate: errormessage })
       }
       else {
@@ -49,6 +52,7 @@ class Register extends Component {
       }
 
       if (this.state.secondnamestate === ''){
+        erors = true;
         this.setState({ secondnameerrorstate: errormessage })
       }
       else {
@@ -56,6 +60,7 @@ class Register extends Component {
       }
 
       if (this.state.usernamestate === ''){
+        erors = true;
         this.setState({ usernameerrorstate: errormessage })
       }
       else {
@@ -63,17 +68,32 @@ class Register extends Component {
       }
       
       if (this.state.passwordstate === ''){
+        erors = true;
         this.setState({ passworderrorstate: errormessage })
       }
       else {
         this.setState({ passworderrorstate: '' })
       }
+      if (!erors){
+        axios.post('http://localhost:5005/register', {
+      
+        username: this.state.usernamestate,
+        password: this.state.passwordstate,
+        firstname: this.state.firstnamestate,
+        secondname: this.state.secondnamestate
+      })
+      .then(response => {
+        // Check for erors and shot alert!
+        // In curl is one, in web is other!
+        alert(response.data.message)
+      })
+      }
 
-    
   }
 
   render() {
     return (
+      <div style={{width: 700}}>
       <Card>
         <center>
           <CardText>
@@ -82,32 +102,30 @@ class Register extends Component {
                 hintText="Your firstname"
                 onChange={this.handleChangeFirstName}
                 errorText={this.state.firstnameerrorstate}
-              />
+              /><br />
               <TextField
                 hintText="Your secondname"
                 onChange={this.handleChangeSecondName}
                 errorText={this.state.secondnameerrorstate}
-              />
+              /><br />
               <TextField
                 hintText="Username"
                 onChange={this.hadleChangeUsername}
                 errorText={this.state.usernameerrorstate}
-              />
+              /><br />
               <TextField
                 hintText="Password"
                 type="password"
                 errorText={this.state.passworderrorstate}
                 onChange={this.handleChangepassword}
-              />
-              <FlatButton label="Register" onClick={this.handleSubmit}/>
+              /><br />
+              <FlatButton label="Register" onClick={this.handleSubmit} primary={true}/>
+              <Link to={"/"}><FlatButton label="Login Page" /></Link>
             </center>
           </CardText>
-          <CardActions>
-            <Link to={"/"}><FlatButton label="Login Page" /></Link>
-            <Link to={"/register"}><FlatButton label="Register Page" /></Link>
-          </CardActions>
         </center>
       </Card>
+      </div>
     );
   }
 }
