@@ -5,7 +5,9 @@ import { Card, CardActions, CardText } from 'material-ui/Card';
 import { Link, Redirect } from 'react-router-dom';
 import axios from 'axios';
 
+
 class Register extends Component {
+
   constructor(props) {
     super(props);
     super(this.state);
@@ -30,8 +32,13 @@ class Register extends Component {
     this.setState({ passwordstate: event.target.value })
   }
   handleSubmit(event) {
-
-    
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+    //document.cookie = "userName=Vasya";
+    //console.log(getCookie('userName'))
     let errormessage = 'Обязательно для заполнения!';
     let error = false;
 
@@ -59,23 +66,35 @@ class Register extends Component {
       
       })
       .then(response => {
-        // Check for erors and shot alert!
-        // In curl is one, in web is other!
+
         if (response.data.erros === 0){
+          document.cookie = "document_key="+ response.data.sessionkey;
           window.location.href = "/welcome"
         }
-        // Get /welcome
-        // send get objects /key/asdasdasdadasdasda
-        // get username
+
         else{
           console.log(response.data.erros)
         }
-         
       })
     }
   }
 
   render() {
+    
+    
+    function getCookie(name) {
+      var value = "; " + document.cookie;
+      var parts = value.split("; " + name + "=");
+      if (parts.length == 2) return parts.pop().split(";").shift();
+    }
+    
+    if (getCookie("document_key") === "ivaidkey"){
+      if (getCookie("alerted") === false){
+       document.cookie = "alerted=true";
+       alert("your session is expired/invaid")
+      }
+    }
+
     return (
       <div style={{"padding": "15%"}}>
       <Card>
@@ -94,7 +113,7 @@ class Register extends Component {
                 errorText={this.state.passworderrorstate}
                 onChange={this.handleChangepassword}
               /><br/>
-              <FlatButton label="Login" onClick={this.handleSubmit} primary={true} />
+              <FlatButton label="Login" type="submit" onClick={this.handleSubmit} primary={true} />
               <Link to={"/register"}><FlatButton label="Register Page" /></Link>
             </center>
           </CardText>
